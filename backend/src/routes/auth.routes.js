@@ -1,0 +1,20 @@
+import {Router} from "express";
+import { loginUser, registerUser, logoutUser, refreshAccessToken, changeCurrentPassword } from "../controllers/auth.controller.js";
+import {upload} from "../middlewares/multer.middleware.js";
+import { verifyJWT } from "../middlewares/auth.middleware.js";
+
+const router= Router()
+
+router.route("/register").post(
+    upload.single("avatar"),
+    registerUser
+)
+
+router.route("/login").post(loginUser)
+
+// // secured route
+router.route("/logout").post(verifyJWT, logoutUser)
+router.route("/refresh-token").post(refreshAccessToken)
+router.route("/change-password").post(verifyJWT, changeCurrentPassword) // verifyJWT is for only logged in memebers can do this
+
+export default router
