@@ -1,3 +1,5 @@
+// JobHeader.jsx
+
 import {
   Search,
   Sparkles,
@@ -16,87 +18,176 @@ function JobsHeader() {
 
   return (
 
-    <div className="mb-10">
+    <div className="mb-8 sm:mb-10">
 
       {/* Title */}
-      <div className="mb-8">
+      <div className="mb-6 sm:mb-8">
 
-        <h1 className="text-4xl font-bold text-white">
+        <h1
+          className="
+            text-2xl
+            sm:text-3xl
+            md:text-4xl
+            font-bold
+            text-white
+            leading-tight
+          "
+        >
           Jobs
         </h1>
 
-        <p className="text-slate-400 mt-2">
+        <p
+          className="
+            text-slate-400
+            mt-2
+            text-sm
+            sm:text-base
+            leading-relaxed
+            max-w-2xl
+          "
+        >
           Search, save, and discover
           AI-powered job recommendations
         </p>
+
       </div>
 
       {/* Tabs */}
-      <div className="flex items-center gap-4 overflow-x-auto">
+      <div
+        className="
+          grid
+          grid-cols-1
+          sm:grid-cols-3
+          gap-3
+          w-full
+        "
+      >
 
-        {/* Search */}
+        {/* Search Jobs */}
         <Link
           to="/jobs"
-          className={`flex items-center gap-3 px-6 py-3 rounded-2xl font-medium transition-all duration-300
+
+          className={`
+            flex items-center justify-center
+            gap-2 sm:gap-3
+
+            w-full
+
+            px-4 sm:px-5 md:px-6
+            py-3
+
+            rounded-xl sm:rounded-2xl
+
+            font-medium
+            text-sm sm:text-base
+
+            transition-all duration-300
             
             ${
-              location.pathname ===
-              "/jobs"
+              location.pathname === "/jobs"
 
-                ? "bg-cyan-500 text-black"
+                ? "bg-cyan-500 text-black shadow-lg shadow-cyan-500/20"
 
                 : "bg-slate-900 text-slate-300 hover:bg-slate-800"
             }
           `}
         >
 
-          <Search size={20} />
+          <Search
+            size={18}
+            className="flex-shrink-0"
+          />
 
-          Search Jobs
+          <span>
+            Search Jobs
+          </span>
+
         </Link>
 
         {/* Recommended */}
         <Link
           to="/recommended-jobs"
-          className={`flex items-center gap-3 px-6 py-3 rounded-2xl font-medium transition-all duration-300
+
+          className={`
+            flex items-center justify-center
+            gap-2 sm:gap-3
+
+            w-full
+
+            px-4 sm:px-5 md:px-6
+            py-3
+
+            rounded-xl sm:rounded-2xl
+
+            font-medium
+            text-sm sm:text-base
+
+            transition-all duration-300
             
             ${
-              location.pathname ===
-              "/recommended-jobs"
+              location.pathname === "/recommended-jobs"
 
-                ? "bg-cyan-500 text-black"
+                ? "bg-cyan-500 text-black shadow-lg shadow-cyan-500/20"
 
                 : "bg-slate-900 text-slate-300 hover:bg-slate-800"
             }
           `}
         >
 
-          <Sparkles size={20} />
+          <Sparkles
+            size={18}
+            className="flex-shrink-0"
+          />
 
-          Recommended
+          <span>
+            Recommended
+          </span>
+
         </Link>
 
-        {/* Saved */}
+        {/* Saved Jobs */}
         <Link
           to="/saved-jobs"
-          className={`flex items-center gap-3 px-6 py-3 rounded-2xl font-medium transition-all duration-300
+
+          className={`
+            flex items-center justify-center
+            gap-2 sm:gap-3
+
+            w-full
+
+            px-4 sm:px-5 md:px-6
+            py-3
+
+            rounded-xl sm:rounded-2xl
+
+            font-medium
+            text-sm sm:text-base
+
+            transition-all duration-300
             
             ${
-              location.pathname ===
-              "/saved-jobs"
+              location.pathname === "/saved-jobs"
 
-                ? "bg-cyan-500 text-black"
+                ? "bg-cyan-500 text-black shadow-lg shadow-cyan-500/20"
 
                 : "bg-slate-900 text-slate-300 hover:bg-slate-800"
             }
           `}
         >
 
-          <Bookmark size={20} />
+          <Bookmark
+            size={18}
+            className="flex-shrink-0"
+          />
 
-          Saved Jobs
+          <span>
+            Saved Jobs
+          </span>
+
         </Link>
+
       </div>
+
     </div>
   );
 }

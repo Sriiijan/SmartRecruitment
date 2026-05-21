@@ -1,23 +1,8 @@
 import { useState } from "react";
-
-// Components
-import Sidebar from "../components/Sidebar";
-
-import DashboardHeader
-from "../components/dashboard/DashboardHeader";
-
 import JobHeader from "../components/job/JobHeader";
-
-import JobSearch
-from "../components/job/JobSearch";
-
-import RecommendedJobs
-from "../components/job/RecommendedJobs";
+import JobSearch from "../components/job/JobSearch";
 import SavedJobsPage from "./SavedJobsPage";
 import RecommendedJobsPage from "./RecommendedJobsPage";
-
-// import SavedJobs
-// from "../components/job/SavedJobs";
 
 function JobsPage() {
 
@@ -26,16 +11,10 @@ function JobsPage() {
 
   return (
 
-    <div className="flex bg-slate-950 min-h-screen">
-
-      {/* Sidebar */}
-      {/* <Sidebar /> */}
+    <div className="bg-slate-950 min-h-screen">
 
       {/* Main */}
-      <div className="flex-1 p-8 overflow-y-auto">
-
-        {/* Top Navbar
-        <DashboardHeader /> */}
+      <div className="p-4 sm:p-6 md:p-8 overflow-y-auto">
 
         {/* Jobs Header */}
         <JobHeader
@@ -43,22 +22,25 @@ function JobsPage() {
           setActiveTab={setActiveTab}
         />
 
-        {/* ========================= */}
         {/* Tab Content */}
-        {/* ========================= */}
+        <div className="mt-6 sm:mt-8">
 
-        {activeTab === "search" && (
-          <JobSearch />
-        )}
+          {activeTab === "search" && (
+            <JobSearch />
+          )}
 
-        {activeTab === "recommended" && (
-          <RecommendedJobsPage />
-        )}
+          {activeTab === "recommended" && (
+            <RecommendedJobsPage />
+          )}
 
-        {activeTab === "saved" && (
-          <SavedJobsPage />
-        )}
+          {activeTab === "saved" && (
+            <SavedJobsPage />
+          )}
+
+        </div>
+
       </div>
+
     </div>
   );
 }
