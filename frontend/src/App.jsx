@@ -1,6 +1,7 @@
-import { Routes, Route } from "react-router-dom";
-import { useLocation } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
+
 import Sidebar from "./components/Sidebar";
+import Navbar from "./components/home/Navbar";
 
 import Home from "./pages/Home";
 import Login from "./pages/Login";
@@ -11,38 +12,49 @@ import Profile from "./pages/Profile";
 import Jobs from "./pages/Jobs";
 import AnalyzeResumeJD from "./pages/AnalyzeResume";
 import RecommendedJobsPage from "./pages/RecommendedJobsPage";
+import SavedJobsPage from "./pages/SavedJobsPage";
 
 import ProtectedRoute from "./routes/ProtectedRoute";
-import SavedJobsPage from "./pages/SavedJobsPage";
-import Navbar from "./components/home/Navbar";
 
 function App() {
 
   const location = useLocation();
 
-  const isHome = location.pathname === "/";
+  // Pages WITHOUT sidebar
+  const noSidebarRoutes = [
+    "/",
+    "/login",
+    "/register",
+  ];
 
+  const showSidebar =
+    !noSidebarRoutes.includes(location.pathname);
 
   return (
     <>
-      {/* Global Navbar */}
+      {/* Navbar */}
       <Navbar />
 
-      {!isHome && <Sidebar />}
-      {/* Page Content */}
+      {/* Sidebar */}
+      {showSidebar && <Sidebar />}
+
+      {/* Main Content */}
       <div
         className={`
           pt-16
-          ${!isHome ? "ml-72" : ""}
+          transition-all duration-300
+          ${showSidebar ? "md:ml-72" : ""}
         `}
       >
 
         <Routes>
 
+          {/* Public Routes */}
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
 
+          {/* Protected Routes */}
           <Route
             path="/dashboard"
             element={
@@ -99,6 +111,7 @@ function App() {
           />
 
         </Routes>
+
       </div>
     </>
   );

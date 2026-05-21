@@ -25,7 +25,22 @@ function Sidebar() {
 
 
   return (
-    <div className="fixed top-16 left-0 h-[calc(100vh-64px)] w-72 bg-slate-900 border-r border-slate-800 overflow-hidden">
+    <div
+      className="
+        fixed top-16 left-0
+        h-[calc(100vh-64px)]
+        w-72
+        bg-slate-900
+        border-r border-slate-800
+        overflow-y-auto
+        z-50
+
+        -translate-x-full
+        md:translate-x-0
+
+        transition-transform duration-300
+      "
+    >
 
       {/* Logo */}
       {/* <Link
