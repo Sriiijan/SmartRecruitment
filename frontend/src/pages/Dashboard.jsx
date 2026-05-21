@@ -1,29 +1,39 @@
-import Sidebar from "../components/Sidebar";
-import DashboardHeader from "../components/dashboard/DashboardHeader";
+// Dashboard.jsx
+
+import { useEffect, useState } from "react";
+
 import { useAuth } from "../context/AuthContext";
-import { useState } from "react";
+
 import { fetchResumeCount } from "../api/resumeApi";
-import { useEffect } from "react";
-import DashboardResume from "../components/dashboard/DashboardResume";
 import { getSavedJobsCount } from "../api/jobApi";
+
+import DashboardResume from "../components/dashboard/DashboardResume";
 
 function Dashboard() {
 
   const { user } = useAuth();
+
   const [resumeCount, setResumeCount] = useState(0);
+
   const [savedJobCount, setSavedJobCount] = useState(0);
 
   // Resume Count
   useEffect(() => {
+
     const loadResumeCount = async () => {
+
       try {
+
         const data = await fetchResumeCount();
+
         setResumeCount(data.count);
-      }
-      catch (error) {
+
+      } catch (error) {
+
         console.log(error);
       }
     };
+
     loadResumeCount();
 
   }, []);
@@ -31,100 +41,107 @@ function Dashboard() {
   // Saved Jobs Count
   useEffect(() => {
 
-    const loadSavedJobsCount =
-      async () => {
+    const loadSavedJobsCount = async () => {
 
-        try {
+      try {
 
-          const response =
-            await getSavedJobsCount();
+        const response =
+          await getSavedJobsCount();
 
-          console.log(response);
+        setSavedJobCount(
+          response.data.count
+        );
 
-          setSavedJobCount(
-            response.data.count
-          );
+      } catch (error) {
 
-        } catch (error) {
-
-          console.log(error);
-        }
-      };
+        console.log(error);
+      }
+    };
 
     loadSavedJobsCount();
 
   }, []);
 
-
-
   return (
-    <div className="flex bg-slate-950 min-h-screen">
 
-      {/* Sidebar */}
-      {/* <Sidebar /> */}
+    <div className="bg-slate-950 min-h-screen">
 
       {/* Main Content */}
-      <div className="flex-1 p-10">
+      <div className="p-4 sm:p-6 md:p-10">
 
-        {/* Header */}
-        {/* <DashboardHeader /> */}
+        {/* Welcome */}
+        <div className="mt-4 sm:mt-6">
 
-        {/* Welcome Section */}
-        <div className="mt-10">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white leading-tight">
 
-          <h1 className="text-5xl font-bold text-white">
             Welcome,
             <span className="text-cyan-400">
               {" "}
               {user?.fullName}
             </span>
+
           </h1>
 
-          <p className="text-slate-400 mt-4 text-lg">
+          <p className="text-slate-400 mt-3 text-sm sm:text-base md:text-lg">
+
             Your AI recruitment dashboard is ready.
+
           </p>
 
         </div>
 
-        {/* Dashboard Cards */}
-        <div className="grid md:grid-cols-3 gap-8 mt-14">
+        {/* Stats Cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5 sm:gap-6 md:gap-8 mt-10 sm:mt-14">
 
-          <div className="bg-slate-900 border border-slate-800 rounded-3xl p-8">
-            <h2 className="text-white text-2xl font-semibold">
+          {/* Uploaded Resumes */}
+          <div className="bg-slate-900 border border-slate-800 rounded-2xl sm:rounded-3xl p-6 sm:p-8">
+
+            <h2 className="text-white text-xl sm:text-2xl font-semibold">
               Uploaded Resumes
             </h2>
 
-            <p className="text-5xl font-bold text-cyan-400 mt-5">
+            <p className="text-4xl sm:text-5xl font-bold text-cyan-400 mt-5">
               {resumeCount}
             </p>
+
           </div>
 
-          <div className="bg-slate-900 border border-slate-800 rounded-3xl p-8">
-            <h2 className="text-white text-2xl font-semibold">
+          {/* Saved Jobs */}
+          <div className="bg-slate-900 border border-slate-800 rounded-2xl sm:rounded-3xl p-6 sm:p-8">
+
+            <h2 className="text-white text-xl sm:text-2xl font-semibold">
               Saved Jobs
             </h2>
 
-            <p className="text-5xl font-bold text-cyan-400 mt-5">
+            <p className="text-4xl sm:text-5xl font-bold text-cyan-400 mt-5">
               {savedJobCount}
             </p>
+
           </div>
 
-          <div className="bg-slate-900 border border-slate-800 rounded-3xl p-8">
-            <h2 className="text-white text-2xl font-semibold">
+          {/* ATS Score */}
+          <div className="bg-slate-900 border border-slate-800 rounded-2xl sm:rounded-3xl p-6 sm:p-8">
+
+            <h2 className="text-white text-xl sm:text-2xl font-semibold">
               ATS Score
             </h2>
 
-            <p className="text-5xl font-bold text-cyan-400 mt-5">
+            <p className="text-4xl sm:text-5xl font-bold text-cyan-400 mt-5">
               92%
             </p>
+
           </div>
 
         </div>
-        <div className="mt-14"><DashboardResume /></div>
+
+        {/* Recent Resumes */}
+        <div className="mt-10 sm:mt-14">
+          <DashboardResume />
+        </div>
+
       </div>
-      
+
     </div>
-    
   );
 }
 
