@@ -34,11 +34,18 @@ function Navbar() {
 
   const handleLogout = () => {
 
+    const confirmLogout =
+      window.confirm(
+        "Are you sure you want to logout?"
+      );
+
+    if (!confirmLogout) return;
+
     logout();
 
     navigate("/login");
 
-    setSidebarOpen(false);
+    setOpenSidebar(false);
   };
 
   return (

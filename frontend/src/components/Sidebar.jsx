@@ -23,13 +23,18 @@ function Sidebar({
   setOpenSidebar
 }) {
 
-  const navigate =
-    useNavigate();
+  const navigate = useNavigate();
 
-  const { logout } =
-    useAuth();
+  const { logout } = useAuth();
 
   const handleLogout = () => {
+
+    const confirmLogout =
+      window.confirm(
+        "Are you sure you want to logout?"
+      );
+
+    if (!confirmLogout) return;
 
     logout();
 
@@ -80,8 +85,7 @@ function Sidebar({
           overflow-y-auto
 
           flex
-          flex-col
-          justify-between
+          flex-col  
 
           z-50
 
@@ -310,11 +314,7 @@ function Sidebar({
 
           </NavLink>
 
-        </div>
-
-        {/* Logout */}
-        <div className="p-4">
-
+          {/* Logout */}
           <button
             onClick={handleLogout}
 
@@ -331,7 +331,7 @@ function Sidebar({
 
               transition-all duration-300
 
-              w-full
+              mt-4
             "
           >
 
@@ -342,6 +342,8 @@ function Sidebar({
           </button>
 
         </div>
+
+        
 
       </div>
     </>
