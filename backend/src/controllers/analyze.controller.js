@@ -6,7 +6,7 @@ import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 
 const FASTAPI_URL = process.env.FASTAPI_URL ?? "http://127.0.0.1:8000";
-const FASTAPI_TIMEOUT_MS = 30_000;
+const FASTAPI_TIMEOUT_MS = 120_000;
 
 // ======================================
 // Analyze Resume
@@ -79,12 +79,15 @@ const analyzeResume = asyncHandler(async (req, res) => {
             }
         );
         analysisData = data;
-    } catch (err) {
-        const status = err.response?.status;
-        if (status === 422) {
-            throw new ApiError(422, "Analysis service could not process this resume");
-        }
-        throw new ApiError(503, "Analysis service is currently unavailable");
+    } catch (error) {
+        console.log("FULL ERROR:", error);
+        console.log("ERROR MESSAGE:", error.message);
+        console.log("ERROR RESPONSE:", error.response?.data);
+
+        throw new ApiError(
+            503,
+            "Analysis service is currently unavailable"
+        );
     }
 
     // =========================
