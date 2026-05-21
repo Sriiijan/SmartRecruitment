@@ -1,4 +1,5 @@
 function Stats() {
+
   const stats = [
     {
       number: "10K+",
@@ -19,25 +20,65 @@ function Stats() {
   ];
 
   return (
-    <section className="max-w-7xl mx-auto px-6 py-20">
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+
+    <section
+      className="
+        max-w-7xl
+        mx-auto
+        px-4 sm:px-6
+        py-16 sm:py-20
+      "
+    >
+
+      <div
+        className="
+          grid
+          grid-cols-2
+          lg:grid-cols-4
+          gap-4 sm:gap-8
+        "
+      >
 
         {stats.map((item, index) => (
+
           <div
             key={index}
-            className="bg-slate-900 border border-slate-800 rounded-3xl p-10 text-center hover:border-cyan-400 transition"
+
+            className="
+              bg-slate-900
+              border border-slate-800
+              rounded-2xl sm:rounded-3xl
+              p-6 sm:p-10
+              text-center
+              hover:border-cyan-400
+              transition
+            "
           >
-            <h2 className="text-4xl font-bold bg-gradient-to-r from-cyan-400 to-indigo-500 bg-clip-text text-transparent">
+
+            <h2
+              className="
+                text-2xl
+                sm:text-4xl
+                font-bold
+                bg-gradient-to-r
+                from-cyan-400
+                to-indigo-500
+                bg-clip-text
+                text-transparent
+              "
+            >
               {item.number}
             </h2>
 
-            <p className="text-slate-400 mt-3">
+            <p className="text-slate-400 mt-3 text-sm sm:text-base">
               {item.title}
             </p>
+
           </div>
         ))}
 
       </div>
+
     </section>
   );
 }

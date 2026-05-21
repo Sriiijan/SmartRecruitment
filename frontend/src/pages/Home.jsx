@@ -7,15 +7,29 @@ import CTA from "../components/home/CTA";
 import Footer from "../components/home/Footer";
 
 function Home() {
+
   return (
-    <div className="bg-slate-950 min-h-screen">
+
+    <div className="bg-slate-950 min-h-screen overflow-x-hidden">
+
       <Navbar />
-      <Hero />
-      <Features />
-      <Stats />
-      <FeaturedJobs />
-      <CTA />
+
+      <main className="pt-16">
+
+        <Hero />
+
+        <Features />
+
+        <Stats />
+
+        <FeaturedJobs />
+
+        <CTA />
+
+      </main>
+
       <Footer />
+
     </div>
   );
 }
