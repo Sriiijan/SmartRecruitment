@@ -1,163 +1,210 @@
-import { Menu, X, BriefcaseBusiness } from "lucide-react";
+// Navbar.jsx
+
+import {
+  Menu,
+  BriefcaseBusiness,
+  User,
+  LogOut,
+  X
+} from "lucide-react";
+
 import { useState } from "react";
-import { Link } from "react-router-dom";
 
-import { useAuth } from "../../context/AuthContext";
+import {
+  Link,
+  useNavigate
+} from "react-router-dom";
 
-export default function Navbar() {
+import { useAuth }
+from "../../context/AuthContext";
 
-  const [mobileMenu, setMobileMenu] =
+import Sidebar
+from "../Sidebar";
+
+function Navbar() {
+
+  const [sidebarOpen, setSidebarOpen] =
     useState(false);
 
-  const { user } = useAuth();
+  const { user, logout } =
+    useAuth();
+
+  const navigate =
+    useNavigate();
+
+  const handleLogout = () => {
+
+    logout();
+
+    navigate("/login");
+
+    setSidebarOpen(false);
+  };
 
   return (
 
-    <nav className="fixed top-0 left-0 w-full z-50 bg-slate-950/95 backdrop-blur-md border-b border-slate-800">
+    <>
+      {/* Navbar */}
+      <nav
+        className="
+          fixed top-0 left-0
+          w-full
+          z-50
 
-      <div className="w-full px-4">
+          bg-slate-950/95
+          backdrop-blur-md
 
-        <div className="flex items-center justify-between h-16">
+          border-b border-slate-800
+        "
+      >
 
-          {/* Logo */}
-          <Link
-            to="/"
-            className="flex items-center gap-2 text-white text-2xl font-bold"
-          >
+        <div className="w-full px-4 sm:px-6">
 
-            <div className="bg-gradient-to-r from-indigo-500 to-cyan-500 p-2 rounded-xl">
+          <div className="flex items-center justify-between h-16">
 
-              <BriefcaseBusiness size={22} />
+            {/* Left */}
+            <div className="flex items-center gap-3">
+
+              {/* Mobile Sidebar Button */}
+              {
+                user && (
+
+                  <button
+                    onClick={() =>
+                      setSidebarOpen(true)
+                    }
+
+                    className="
+                      md:hidden
+                      text-white
+                    "
+                  >
+                    <Menu size={24} />
+                  </button>
+                )
+              }
+
+              {/* Logo */}
+              <Link
+                to="/"
+
+                className="
+                  flex items-center gap-2
+
+                  text-white
+
+                  text-lg sm:text-2xl
+
+                  font-bold
+                "
+              >
+
+                <div
+                  className="
+                    bg-gradient-to-r
+                    from-indigo-500
+                    to-cyan-500
+
+                    p-2
+
+                    rounded-xl
+                  "
+                >
+
+                  <BriefcaseBusiness size={22} />
+
+                </div>
+
+                <span>
+                  Smart
+
+                  <span className="text-cyan-400">
+                    Recruitment
+                  </span>
+                </span>
+
+              </Link>
 
             </div>
 
-            <span>
-              Smart
-              <span className="text-cyan-400">
-                Recruitment
-              </span>
-            </span>
-
-          </Link>
-
-          {/* Desktop Menu */}
-          <div className="hidden md:flex items-center gap-8">
-
-            <Link
-              to="/"
-              className="text-slate-300 hover:text-cyan-400 transition"
-            >
-              Home
-            </Link>
-
-            <Link
-              to="/jobs"
-              className="text-slate-300 hover:text-cyan-400 transition"
-            >
-              Jobs
-            </Link>
-
-            <Link
-              to="/analyze-resume"
-              className="text-slate-300 hover:text-cyan-400 transition"
-            >
-              Resume Analyzer
-            </Link>
-
-            {/* Conditional Button */}
-            {
-              user ? (
-
-                <Link
-                  to="/dashboard"
-                  className="bg-gradient-to-r from-indigo-500 to-cyan-500 px-5 py-2 rounded-xl text-white hover:scale-105 transition-all duration-300"
-                >
-                  Dashboard
-                </Link>
-
-              ) : (
-
-                <Link
-                  to="/login"
-                  className="bg-gradient-to-r from-indigo-500 to-cyan-500 px-5 py-2 rounded-xl text-white hover:scale-105 transition-all duration-300"
-                >
-                  Login
-                </Link>
-
-              )
-            }
-
-          </div>
-
-          {/* Mobile Icon */}
-          <button
-            className="md:hidden text-white"
-            onClick={() =>
-              setMobileMenu(!mobileMenu)
-            }
-          >
-            {
-              mobileMenu
-                ? <X />
-                : <Menu />
-            }
-          </button>
-        </div>
-
-        {/* Mobile Menu */}
-        {
-          mobileMenu && (
-
-            <div className="md:hidden flex flex-col gap-4 pb-4 text-white">
-
-              <Link
-                to="/"
-                onClick={() =>
-                  setMobileMenu(false)
-                }
-              >
-                Home
-              </Link>
-
-              <Link
-                to="/jobs"
-                onClick={() =>
-                  setMobileMenu(false)
-                }
-              >
-                Jobs
-              </Link>
-
-              <Link
-                to="/analyze-resume"
-                onClick={() =>
-                  setMobileMenu(false)
-                }
-              >
-                Resume Analyzer
-              </Link>
+            {/* Right */}
+            <div className="flex items-center gap-3">
 
               {
                 user ? (
 
-                  <Link
-                    to="/dashboard"
-                    onClick={() =>
-                      setMobileMenu(false)
-                    }
-                    className="bg-gradient-to-r from-indigo-500 to-cyan-500 px-5 py-2 rounded-xl text-white text-center"
-                  >
-                    Dashboard
-                  </Link>
+                  <>
+                    {/* Profile */}
+                    <Link
+                      to="/profile"
+
+                      className="
+                        hidden sm:flex
+                        items-center gap-2
+
+                        text-slate-300
+
+                        hover:text-cyan-400
+
+                        transition
+                      "
+                    >
+
+                      <User size={20} />
+
+                      Profile
+
+                    </Link>
+
+                    {/* Logout */}
+                    <button
+                      onClick={handleLogout}
+
+                      className="
+                        flex items-center gap-2
+
+                        bg-red-500/10
+                        text-red-400
+
+                        hover:bg-red-500/20
+
+                        px-4 py-2
+
+                        rounded-xl
+
+                        transition-all duration-300
+                      "
+                    >
+
+                      <LogOut size={18} />
+
+                      <span className="hidden sm:block">
+                        Logout
+                      </span>
+
+                    </button>
+                  </>
 
                 ) : (
 
                   <Link
                     to="/login"
-                    onClick={() =>
-                      setMobileMenu(false)
-                    }
-                    className="bg-gradient-to-r from-indigo-500 to-cyan-500 px-5 py-2 rounded-xl text-white text-center"
+
+                    className="
+                      bg-gradient-to-r
+                      from-indigo-500
+                      to-cyan-500
+
+                      px-5 py-2
+
+                      rounded-xl
+
+                      text-white
+
+                      hover:scale-105
+
+                      transition-all duration-300
+                    "
                   >
                     Login
                   </Link>
@@ -166,10 +213,86 @@ export default function Navbar() {
               }
 
             </div>
-          )
-        }
+
+          </div>
+
+        </div>
+
+      </nav>
+
+      {/* Mobile Overlay */}
+      {
+        sidebarOpen && (
+
+          <div
+            onClick={() =>
+              setSidebarOpen(false)
+            }
+
+            className="
+              fixed inset-0
+
+              bg-black/50
+
+              z-40
+
+              md:hidden
+            "
+          />
+        )
+      }
+
+      {/* Mobile Sidebar */}
+      <div
+        className={`
+          fixed
+          top-0
+          left-0
+
+          z-50
+
+          transform
+          transition-transform
+          duration-300
+          ease-in-out
+
+          ${
+            sidebarOpen
+              ? "translate-x-0"
+              : "-translate-x-full"
+          }
+
+          md:hidden
+        `}
+      >
+
+        {/* Close Button */}
+        <button
+          onClick={() =>
+            setSidebarOpen(false)
+          }
+
+          className="
+            absolute
+            top-5
+            right-5
+
+            text-white
+
+            z-50
+          "
+        >
+          <X size={24} />
+        </button>
+
+        <Sidebar
+          openSidebar={sidebarOpen}
+          setOpenSidebar={setSidebarOpen}
+        />
 
       </div>
-    </nav>
+    </>
   );
 }
+
+export default Navbar;

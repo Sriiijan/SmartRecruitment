@@ -1,7 +1,7 @@
 import { Routes, Route, useLocation } from "react-router-dom";
 
-import Sidebar from "./components/Sidebar";
 import Navbar from "./components/home/Navbar";
+import Sidebar from "./components/Sidebar";
 
 import Home from "./pages/Home";
 import Login from "./pages/Login";
@@ -18,43 +18,69 @@ import ProtectedRoute from "./routes/ProtectedRoute";
 
 function App() {
 
-  const location = useLocation();
+  const location =
+    useLocation();
 
-  // Pages WITHOUT sidebar
-  const noSidebarRoutes = [
-    "/",
-    "/login",
-    "/register",
-  ];
+  const isHome =
+    location.pathname === "/";
 
-  const showSidebar =
-    !noSidebarRoutes.includes(location.pathname);
+  const hideSidebar =
+    location.pathname === "/" ||
+    location.pathname === "/login" ||
+    location.pathname === "/register";
 
   return (
-    <>
+
+    <div className="bg-slate-950 min-h-screen">
+
       {/* Navbar */}
       <Navbar />
 
-      {/* Sidebar */}
-      {showSidebar && <Sidebar />}
+      {/* Desktop Sidebar */}
+      {
+        !hideSidebar && (
+
+          <div className="hidden md:block">
+
+            <Sidebar
+              openSidebar={true}
+              setOpenSidebar={() => {}}
+            />
+
+          </div>
+        )
+      }
 
       {/* Main Content */}
       <div
         className={`
           pt-16
-          transition-all duration-300
-          ${showSidebar ? "md:ml-72" : ""}
+
+          ${
+            !hideSidebar
+              ? "md:ml-72"
+              : ""
+          }
         `}
       >
 
         <Routes>
 
-          {/* Public Routes */}
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
+          <Route
+            path="/"
+            element={<Home />}
+          />
 
-          {/* Protected Routes */}
+          <Route
+            path="/login"
+            element={<Login />}
+          />
+
+          <Route
+            path="/register"
+            element={<Register />}
+          />
+
           <Route
             path="/dashboard"
             element={
@@ -113,7 +139,8 @@ function App() {
         </Routes>
 
       </div>
-    </>
+
+    </div>
   );
 }
 
