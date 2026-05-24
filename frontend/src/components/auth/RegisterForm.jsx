@@ -1,6 +1,7 @@
 import { User, Mail, Lock, ImagePlus } from "lucide-react";
 import { useState } from "react";
 import { registerUser } from "../../api/authApi";
+import { useNavigate } from "react-router-dom";
 
 function RegisterForm() {
 
@@ -13,9 +14,9 @@ function RegisterForm() {
 
     const [avatar, setAvatar] = useState(null);
     const [preview, setPreview] = useState("");
-
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
+    const navigate = useNavigate();
 
     // Handle Input Change
     const handleChange = (e) => {
@@ -53,20 +54,8 @@ function RegisterForm() {
 
         const data = await registerUser(userData);
 
-        console.log(data);
-
-        // API Call Example
-        /*
-        await axios.post(
-            "http://localhost:8000/api/v1/users/register",
-            userData,
-            {
-            headers: {
-                "Content-Type": "multipart/form-data",
-            },
-            }
-        );
-        */
+         navigate("/login");
+        
 
         } catch (err) {
         setError("Registration failed");
