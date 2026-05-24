@@ -1,4 +1,4 @@
-import { Mail, Lock } from "lucide-react";
+import { Mail, Lock, X, Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 import { loginUser } from "../../api/authApi";
 import { Link, useNavigate } from "react-router-dom";
@@ -13,6 +13,7 @@ function LoginForm() {
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   const { login } = useAuth();
   const navigate = useNavigate();
@@ -39,9 +40,17 @@ function LoginForm() {
 
       console.log(data);
 
-    } catch (err) {
-      setError("Login failed");
-    } finally {
+    } 
+    catch (err) {
+      if (err.response?.status === 401) {
+        setError("Invalid email or password");
+      }
+
+      else {
+        setError("Something went wrong");
+      }
+    }
+    finally {
       setLoading(false);
     }
   };
@@ -96,27 +105,36 @@ function LoginForm() {
 
         {/* Password */}
         <div>
-
-          <label className="text-slate-300 block mb-2 text-sm sm:text-base">
-            Password
+          <label className="text-slate-300 block mb-2">
+              Password
           </label>
 
-          <div className="flex items-center bg-slate-800 rounded-xl sm:rounded-2xl px-3 sm:px-4 border border-slate-700 focus-within:border-cyan-400 transition">
+          <div className="relative flex items-center bg-slate-800 rounded-2xl px-4 border border-slate-700 focus-within:border-cyan-400 transition">
 
-            <Lock className="text-slate-400 flex-shrink-0" size={20} />
+              <Lock className="text-slate-400" size={20} />
 
-            <input
-              type="password"
+              <input
+              type={showPassword ? "text" : "password"}
               name="password"
               value={formData.password}
               onChange={handleChange}
               placeholder="Enter your password"
-              className="w-full bg-transparent outline-none px-3 sm:px-4 py-3 sm:py-4 text-sm sm:text-base text-white"
+              className="w-full bg-transparent outline-none px-4 py-4 text-white"
               required
-            />
+              />
 
+              <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-4 text-gray-400 hover:text-white"
+              >
+              {
+                  showPassword
+                  ? <EyeOff size={22} />
+                  : <Eye size={22} />
+              }
+              </button>
           </div>
-
         </div>
 
         {/* Forgot Password */}

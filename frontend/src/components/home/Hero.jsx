@@ -1,7 +1,27 @@
 import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { getCurrentUser } from "../../api/userApi";
 
 function Hero() {
+
+  const [user, setUser]= useState(null);
+
+  // Current User
+    useEffect(() => {
+      const currentUser= async () => {
+        try {
+          const data= await getCurrentUser();
+          // console.log(data);
+          setUser(data.data);
+        } catch (error) {
+          // console.log(error);
+        }
+      }
+  
+      currentUser();
+  
+    }, []);
 
   return (
 
@@ -135,7 +155,9 @@ function Hero() {
           />
 
           <img
-            src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+            src={
+                "https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+              }
 
             alt="hero"
 

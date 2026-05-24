@@ -1,4 +1,4 @@
-import { User, Mail, Lock, ImagePlus } from "lucide-react";
+import { User, Mail, Lock, ImagePlus, X, Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 import { registerUser } from "../../api/authApi";
 import { useNavigate } from "react-router-dom";
@@ -16,6 +16,9 @@ function RegisterForm() {
     const [preview, setPreview] = useState("");
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
     const navigate = useNavigate();
 
     // Handle Input Change
@@ -39,6 +42,18 @@ function RegisterForm() {
     // Handle Submit
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        // Profile photo validation
+        if (!avatar) {
+            setError("Profile photo is required");
+            return;
+        }
+
+        // Password match validation
+        if (formData.password !== formData.confirmPassword) {
+            setError("Passwords do not match");
+            return;
+        }
 
         try {
         setLoading(true);
@@ -84,41 +99,54 @@ function RegisterForm() {
             className="space-y-6"
         >
 
-            {/* Avatar Upload */}
+           {/* Avatar Upload */}
             <div className="flex flex-col items-center">
 
-            <label className="relative cursor-pointer">
+                <label className="relative cursor-pointer">
 
-                <div className="w-28 h-28 rounded-full bg-slate-800 border-2 border-dashed border-cyan-400 flex items-center justify-center overflow-hidden">
+                    <div
+                        className={`w-28 h-28 rounded-full bg-slate-800 border-2 border-dashed flex items-center justify-center overflow-hidden ${
+                            !avatar ? "border-red-400" : "border-cyan-400"
+                        }`}
+                    >
+
+                        {
+                            preview ? (
+                                <img
+                                    src={preview}
+                                    alt="avatar"
+                                    className="w-full h-full object-cover"
+                                />
+                            ) : (
+                                <ImagePlus
+                                    className="text-cyan-400"
+                                    size={40}
+                                />
+                            )
+                        }
+
+                    </div>
+
+                    <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleAvatarChange}
+                        className="hidden"
+                    />
+                </label>
+
+                <p className="text-slate-400 text-sm mt-3">
+                    Upload Profile Picture
+                </p>
 
                 {
-                    preview ? (
-                    <img
-                        src={preview}
-                        alt="avatar"
-                        className="w-full h-full object-cover"
-                    />
-                    ) : (
-                    <ImagePlus
-                        className="text-cyan-400"
-                        size={40}
-                    />
+                    !avatar && (
+                        <p className="text-red-400 text-sm mt-2">
+                            Profile photo is required
+                        </p>
                     )
                 }
 
-                </div>
-
-                <input
-                type="file"
-                accept="image/*"
-                onChange={handleAvatarChange}
-                className="hidden"
-                />
-            </label>
-
-            <p className="text-slate-400 text-sm mt-3">
-                Upload Profile Picture
-            </p>
             </div>
 
             {/* Name */}
@@ -189,24 +217,88 @@ function RegisterForm() {
 
             {/* Password */}
             <div>
-            <label className="text-slate-300 block mb-2">
-                Password
-            </label>
+                <label className="text-slate-300 block mb-2">
+                    Password
+                </label>
 
-            <div className="flex items-center bg-slate-800 rounded-2xl px-4 border border-slate-700 focus-within:border-cyan-400 transition">
+                <div className="relative flex items-center bg-slate-800 rounded-2xl px-4 border border-slate-700 focus-within:border-cyan-400 transition">
 
-                <Lock className="text-slate-400" size={20} />
+                    <Lock className="text-slate-400" size={20} />
 
-                <input
-                type="password"
-                name="password"
-                value={formData.password}
-                onChange={handleChange}
-                placeholder="Create password"
-                className="w-full bg-transparent outline-none px-4 py-4 text-white"
-                required
-                />
+                    <input
+                    type={showPassword ? "text" : "password"}
+                    name="password"
+                    value={formData.password}
+                    onChange={handleChange}
+                    placeholder="Create password"
+                    className="w-full bg-transparent outline-none px-4 py-4 text-white"
+                    required
+                    />
+
+                    <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-4 text-gray-400 hover:text-white"
+                    >
+                    {
+                        showPassword
+                        ? <EyeOff size={22} />
+                        : <Eye size={22} />
+                    }
+                    </button>
+                </div>
             </div>
+
+            {/* Confirm Password */}
+            <div>
+                <label className="text-slate-300 block mb-2">
+                    Confirm Password
+                </label>
+
+                <div className="relative flex items-center bg-slate-800 rounded-2xl px-4 border border-slate-700 focus-within:border-cyan-400 transition">
+
+                    <Lock className="text-slate-400" size={20} />
+
+                    <input
+                    type={showConfirmPassword ? "text" : "password"}
+                    name="confirmPassword"
+                    value={formData.confirmPassword || ""}
+                    onChange={handleChange}
+                    placeholder="Confirm password"
+                    className="w-full bg-transparent outline-none px-4 py-4 text-white"
+                    required
+                    />
+
+                    <button
+                    type="button"
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    className="absolute right-4 text-gray-400 hover:text-white"
+                    >
+                    {
+                        showConfirmPassword
+                        ? <EyeOff size={22} />
+                        : <Eye size={22} />
+                    }
+                    </button>
+                    
+                </div>
+                {
+                    formData.confirmPassword && (
+                        <p
+                            className={`text-sm mt-2 ${
+                                formData.password === formData.confirmPassword
+                                    ? "text-green-400"
+                                    : "text-red-400"
+                            }`}
+                        >
+                            {
+                                formData.password === formData.confirmPassword
+                                    ? "Passwords match"
+                                    : "Passwords do not match"
+                            }
+                        </p>
+                    )
+                }
             </div>
 
             {/* Error */}
@@ -220,11 +312,14 @@ function RegisterForm() {
 
             {/* Button */}
             <button
-            type="submit"
-            disabled={loading}
-            className="w-full bg-gradient-to-r from-indigo-500 to-cyan-500 py-4 rounded-2xl text-white font-semibold hover:opacity-90 transition disabled:opacity-50"
+                type="submit"
+                disabled={
+                    loading ||
+                    formData.password !== formData.confirmPassword
+                }
+                className="w-full bg-gradient-to-r from-indigo-500 to-cyan-500 py-4 rounded-2xl text-white font-semibold hover:opacity-90 transition disabled:opacity-50"
             >
-            {loading ? "Creating Account..." : "Register"}
+                {loading ? "Creating Account..." : "Register"}
             </button>
 
         </form>
