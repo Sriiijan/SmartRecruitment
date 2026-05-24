@@ -73,16 +73,47 @@ function ResumeUpload() {
 
   return (
 
-    <div className="w-full max-w-2xl bg-slate-900 border border-slate-800 rounded-3xl p-10 shadow-2xl">
+    <div
+      className="
+        w-full
+        max-w-2xl
+
+        bg-slate-900
+        border border-slate-800
+
+        rounded-2xl sm:rounded-3xl
+
+        p-5 sm:p-8 md:p-10
+
+        shadow-2xl
+      "
+    >
 
       {/* Heading */}
-      <div className="text-center mb-10">
+      <div className="text-center mb-8 sm:mb-10">
 
-        <h1 className="text-4xl font-bold text-white">
+        <h1
+          className="
+            text-2xl
+            sm:text-3xl
+            md:text-4xl
+
+            font-bold
+            text-white
+          "
+        >
           Upload Resume
         </h1>
 
-        <p className="text-slate-400 mt-3">
+        <p
+          className="
+            text-slate-400
+
+            mt-2 sm:mt-3
+
+            text-sm sm:text-base
+          "
+        >
           Store and manage your resumes securely.
         </p>
 
@@ -95,18 +126,52 @@ function ResumeUpload() {
       >
 
         {/* Upload Box */}
-        <label className="border-2 border-dashed border-cyan-400 rounded-3xl p-12 flex flex-col items-center justify-center cursor-pointer hover:bg-slate-800 transition">
+        <label
+          className="
+            border-2 border-dashed border-cyan-400
+
+            rounded-2xl sm:rounded-3xl
+
+            p-6 sm:p-10 md:p-12
+
+            flex flex-col items-center justify-center
+
+            cursor-pointer
+
+            hover:bg-slate-800
+
+            transition
+
+            text-center
+          "
+        >
 
           <UploadCloud
-            size={60}
+            size={window.innerWidth < 640 ? 45 : 60}
             className="text-cyan-400"
           />
 
-          <p className="text-white text-lg mt-5">
+          <p
+            className="
+              text-white
+
+              text-base sm:text-lg
+
+              mt-4 sm:mt-5
+            "
+          >
             Click to Upload Resume
           </p>
 
-          <p className="text-slate-400 text-sm mt-2">
+          <p
+            className="
+              text-slate-400
+
+              text-xs sm:text-sm
+
+              mt-2
+            "
+          >
             PDF, DOC, DOCX Supported
           </p>
 
@@ -123,17 +188,43 @@ function ResumeUpload() {
         {
           previewName && (
 
-            <div className="bg-slate-800 rounded-2xl p-5 flex items-center gap-4">
+            <div
+              className="
+                bg-slate-800
 
-              <FileText className="text-cyan-400" />
+                rounded-2xl
 
-              <div>
+                p-4 sm:p-5
 
-                <p className="text-white">
+                flex items-center gap-3 sm:gap-4
+              "
+            >
+
+              <FileText
+                className="text-cyan-400 flex-shrink-0"
+              />
+
+              <div className="min-w-0">
+
+                <p
+                  className="
+                    text-white
+
+                    text-sm sm:text-base
+
+                    truncate
+                  "
+                >
                   {previewName}
                 </p>
 
-                <p className="text-slate-400 text-sm">
+                <p
+                  className="
+                    text-slate-400
+
+                    text-xs sm:text-sm
+                  "
+                >
                   Ready to upload
                 </p>
 
@@ -147,7 +238,28 @@ function ResumeUpload() {
         <button
           type="submit"
           disabled={loading}
-          className="w-full bg-gradient-to-r from-indigo-500 to-cyan-500 py-4 rounded-2xl text-white font-semibold hover:opacity-90 transition disabled:opacity-50"
+          className="
+            w-full
+
+            bg-gradient-to-r
+            from-indigo-500
+            to-cyan-500
+
+            py-3 sm:py-4
+
+            rounded-2xl
+
+            text-white
+            font-semibold
+
+            text-sm sm:text-base
+
+            hover:opacity-90
+
+            transition
+
+            disabled:opacity-50
+          "
         >
 
           {
