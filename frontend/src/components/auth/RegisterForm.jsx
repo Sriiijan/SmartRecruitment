@@ -44,10 +44,10 @@ function RegisterForm() {
         e.preventDefault();
 
         // Profile photo validation
-        if (!avatar) {
-            setError("Profile photo is required");
-            return;
-        }
+        // if (!avatar) {
+        //     setError("Profile photo is required");
+        //     return;
+        // }
 
         // Password match validation
         if (formData.password !== formData.confirmPassword) {
@@ -65,7 +65,9 @@ function RegisterForm() {
         userData.append("username", formData.username);
         userData.append("email", formData.email);
         userData.append("password", formData.password);
-        userData.append("avatar", avatar);
+        if (avatar) {
+            userData.append("avatar", avatar);
+        }
 
         const data = await registerUser(userData);
 
@@ -105,9 +107,7 @@ function RegisterForm() {
                 <label className="relative cursor-pointer">
 
                     <div
-                        className={`w-28 h-28 rounded-full bg-slate-800 border-2 border-dashed flex items-center justify-center overflow-hidden ${
-                            !avatar ? "border-red-400" : "border-cyan-400"
-                        }`}
+                        className="w-28 h-28 rounded-full bg-slate-800 border-2 border-dashed border-cyan-400 flex items-center justify-center overflow-hidden"
                     >
 
                         {
@@ -138,14 +138,6 @@ function RegisterForm() {
                 <p className="text-slate-400 text-sm mt-3">
                     Upload Profile Picture
                 </p>
-
-                {
-                    !avatar && (
-                        <p className="text-red-400 text-sm mt-2">
-                            Profile photo is required
-                        </p>
-                    )
-                }
 
             </div>
 
