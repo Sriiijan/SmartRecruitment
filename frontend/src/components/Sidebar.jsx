@@ -12,7 +12,8 @@ import {
 
 import {
   NavLink,
-  useNavigate
+  useNavigate,
+  Link
 } from "react-router-dom";
 
 import { useAuth }
@@ -105,7 +106,9 @@ function Sidebar({
       >
 
         {/* Header */}
-        <div
+        <Link
+          to="/"
+          
           className="
             h-16
 
@@ -144,7 +147,7 @@ function Sidebar({
             <X size={24} />
           </button>
 
-        </div>
+        </Link>
 
         {/* Navigation */}
         <div className="flex flex-col gap-3 p-4 mt-4">

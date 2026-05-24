@@ -117,7 +117,7 @@ function ProfileComp() {
           const response =
             await getSavedJobsCount();
 
-          console.log(response);
+          // console.log(response);
 
           setSavedJobCount(
             response.data.count
