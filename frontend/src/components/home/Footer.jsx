@@ -99,7 +99,7 @@ function Footer() {
 
               <li>
                 <a
-                  href="/resume-analyzer"
+                  href="/analyze-resume"
                   className="hover:text-cyan-400 transition duration-300"
                 >
                   Resume Analyzer
