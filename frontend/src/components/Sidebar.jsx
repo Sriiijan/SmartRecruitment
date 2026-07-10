@@ -1,5 +1,3 @@
-// Sidebar.jsx
-
 import {
   LayoutDashboard,
   Upload,

@@ -156,7 +156,7 @@ function RecommendedJobs() {
                   key={resume._id}
                   value={resume._id}
                 >
-                  {resume.originalName}
+                  {resume.title}
                 </option>
               ))}
 

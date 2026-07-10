@@ -178,7 +178,7 @@ function AnalyzeResumeJD() {
                       }
                     >
                       {
-                        resume.originalName
+                        resume.title
                       }
                     </option>
                   )

@@ -28,6 +28,27 @@ function ProfileComp() {
   const [resumes, setResumes] = useState([]);
   const [openEditModal, setOpenEditModal] = useState(false);
   const [savedJobCount, setSavedJobCount] = useState(0);
+  const [skillsCount, setSkillsCount] = useState(0);
+
+  // extracted skill
+  useEffect(() => {
+    if (!resumes.length) {
+      setSkillsCount(0);
+      return;
+    }
+
+    const uniqueSkills = new Set();
+
+    resumes.forEach((resume) => {
+      if (resume.skills && Array.isArray(resume.skills)) {
+        resume.skills.forEach((skill) =>
+          uniqueSkills.add(skill.trim().toLowerCase())
+        );
+      }
+    });
+
+    setSkillsCount(uniqueSkills.size);
+  }, [resumes]);  
 
   // Current User
   useEffect(() => {
@@ -374,11 +395,11 @@ return (
           <div className="bg-slate-800 rounded-2xl p-6 text-center">
 
             <h3 className="text-slate-400 text-sm sm:text-base">
-              ATS Score
+              Skills Extracted
             </h3>
 
             <p className="text-3xl sm:text-4xl font-bold text-cyan-400 mt-3">
-              92%
+              {skillsCount}
             </p>
 
           </div>
@@ -432,7 +453,7 @@ return (
                     <div className="min-w-0">
 
                       <h3 className="text-white text-base sm:text-lg font-semibold break-words">
-                        {resume.originalName}
+                        {resume.title}
                       </h3>
 
                       <p className="text-slate-400 text-sm mt-1">

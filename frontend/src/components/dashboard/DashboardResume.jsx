@@ -76,7 +76,7 @@ function DashboardResume() {
                   <div className="min-w-0">
 
                     <h3 className="text-white text-base sm:text-lg font-semibold break-words">
-                      {resume.originalName}
+                      {resume.title}
                     </h3>
 
                     {/* Skills */}

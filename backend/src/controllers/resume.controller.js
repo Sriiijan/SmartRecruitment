@@ -13,84 +13,50 @@ import { extractSkills } from "../utils/extractSkills.js";
 // Upload Resume
 // ======================================
 const addResume = asyncHandler(async (req, res) => {
-
-    const resumeLocalPath = req.file?.path;
-
-    if (!resumeLocalPath) {
+    if (!req.file) {
         throw new ApiError(400, "Resume file is required");
     }
 
-    // =========================
-    // Extract PDF Text FIRST
-    // =========================
+    const resumeLocalPath = req.file.path;
+
+    // Get title from request body
+    let title = req.body.title?.trim();
+
+    // If title is empty, use file name (without extension)
+    if (!title) {
+        title = path.parse(req.file.originalname).name;
+    }
+
+    // Extract PDF text
     let extractedText = "";
 
     try {
-
-        const dataBuffer = fs.readFileSync(
-            resumeLocalPath
-        );
-
+        const dataBuffer = fs.readFileSync(resumeLocalPath);
         const pdfData = await pdf(dataBuffer);
-
         extractedText = pdfData.text;
-
-        console.log("Extracted Text:");
-        console.log(extractedText);
-
     } catch (error) {
-
-        console.log(
-            "PDF Parse Error:",
-            error.message
-        );
+        throw new ApiError(400, "Unable to parse PDF");
     }
 
-    // =========================
-    // Extract Skills
-    // =========================
     const skills = extractSkills(extractedText);
 
-    console.log("Extracted Skills:");
-    console.log(skills);
-
-    // =========================
-    // Upload to Cloudinary
-    // =========================
-    const uploadedResume = await uploadResumeOnCloudinary(
-        resumeLocalPath
-    );
+    const uploadedResume = await uploadResumeOnCloudinary(resumeLocalPath);
 
     if (!uploadedResume?.secure_url) {
-        throw new ApiError(
-            400,
-            "Error uploading resume"
-        );
+        throw new ApiError(400, "Error uploading resume");
     }
 
-    // =========================
-    // Save Resume
-    // =========================
     const resume = await Resume.create({
-
-        userId: req.user?._id,
-
+        userId: req.user._id,
+        title,
         resumeUrl: uploadedResume.secure_url,
-
         originalName: req.file.originalname,
-
         extractedText,
-
-        skills
+        skills,
     });
 
     return res.status(201).json(
-
-        new ApiResponse(
-            201,
-            resume,
-            "Resume uploaded successfully"
-        )
+        new ApiResponse(201, resume, "Resume uploaded successfully")
     );
 });
 

@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 import { useAuth } from "../context/AuthContext";
 
-import { fetchResumeCount } from "../api/resumeApi";
+import { fetchResumeCount, getUserResumes } from "../api/resumeApi";
 import { getSavedJobsCount } from "../api/jobApi";
 
 import DashboardResume from "../components/dashboard/DashboardResume";
@@ -12,10 +12,51 @@ import DashboardResume from "../components/dashboard/DashboardResume";
 function Dashboard() {
 
   const { user } = useAuth();
-
   const [resumeCount, setResumeCount] = useState(0);
-
   const [savedJobCount, setSavedJobCount] = useState(0);
+  const [skillsCount, setSkillsCount] = useState(0);
+
+  useEffect(() => {
+
+    const loadSkillsCount = async () => {
+
+      try {
+
+        const response = await getUserResumes();
+
+        const resumes = response.data || [];
+
+        const uniqueSkills = new Set();
+
+        resumes.forEach((resume) => {
+
+          if (resume.skills && Array.isArray(resume.skills)) {
+
+            resume.skills.forEach((skill) => {
+
+              uniqueSkills.add(
+                skill.trim().toLowerCase()
+              );
+
+            });
+
+          }
+
+        });
+
+        setSkillsCount(uniqueSkills.size);
+
+      } catch (error) {
+
+        console.log(error);
+
+      }
+
+    };
+
+    loadSkillsCount();
+
+  }, []);
 
   // Resume Count
   useEffect(() => {
@@ -119,15 +160,15 @@ function Dashboard() {
 
           </div>
 
-          {/* ATS Score */}
+          {/* Skills Extracted */}
           <div className="bg-slate-900 border border-slate-800 rounded-2xl sm:rounded-3xl p-6 sm:p-8">
 
             <h2 className="text-white text-xl sm:text-2xl font-semibold">
-              ATS Score
+              Skills Extracted
             </h2>
 
             <p className="text-4xl sm:text-5xl font-bold text-cyan-400 mt-5">
-              92%
+              {skillsCount}
             </p>
 
           </div>

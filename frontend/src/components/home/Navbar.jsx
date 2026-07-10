@@ -1,5 +1,3 @@
-// Navbar.jsx
-
 import {
   Menu,
   BriefcaseBusiness,

@@ -186,20 +186,14 @@ const [loading, setLoading] = useState(false);
         </div>
 
         {/* Skills */}
-        <div className="mt-6 flex flex-wrap gap-2">
-
-          {["React", "Node.js", "JavaScript"].map(
-            (skill, index) => (
-
-              <span
-                key={index}
-                className="bg-cyan-500/10 text-cyan-400 text-sm px-3 py-1 rounded-full"
-              >
-                {skill}
-              </span>
-            )
-          )}
-        </div>
+        {job.skills?.map((skill, index) => (
+          <span
+            key={index}
+            className="bg-cyan-500/10 text-cyan-400 text-sm px-3 py-1 rounded-full"
+          >
+            {skill}
+          </span>
+        ))}
       </div>
 
       {/* Footer */}

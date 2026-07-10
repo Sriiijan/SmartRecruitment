@@ -244,61 +244,48 @@ function AnalyzeResult({ result }) {
           
         </div>
         {/* Recommendations */}
-      {/* ====================================== */}
-      <div className="bg-slate-900 border border-slate-800 rounded-3xl p-8">
+        <div className="bg-slate-900 border border-slate-800 rounded-3xl p-8 lg:col-span-2">
 
-        <div className="flex items-center gap-3 mb-6">
+          <div className="flex items-center gap-3 mb-6">
+            <BookOpen className="text-cyan-400" size={30} />
 
-          <BookOpen
-            className="text-cyan-400"
-            size={30}
-          />
+            <h3 className="text-2xl font-bold text-white">
+              AI Recommendations
+            </h3>
+          </div>
 
-          <h3 className="text-2xl font-bold text-white">
-            AI Recommendations
-          </h3>
-        </div>
-
-        {
-          (result.recommendations || [])
-            .length > 0 ? (
-
+          {(result.missing_skills || []).length > 0 ? (
             <div className="space-y-4">
+              {result.missing_skills.map((skill, index) => (
+                <div
+                  key={index}
+                  className="flex items-start gap-4 p-5 bg-cyan-500/5 border border-cyan-500/20 rounded-2xl"
+                >
+                  <Award
+                    className="text-cyan-400 mt-1 flex-shrink-0"
+                    size={24}
+                  />
 
-              {
-                result.recommendations.map(
-                  (
-                    recommendation,
-                    index
-                  ) => (
-
-                    <div
-                      key={index}
-                      className="flex items-start gap-4 p-5 bg-cyan-500/5 border border-cyan-500/20 rounded-2xl"
-                    >
-
-                      <Award
-                        className="text-cyan-400 mt-1 flex-shrink-0"
-                        size={24}
-                      />
-
-                      <p className="text-slate-300 text-lg leading-relaxed">
-                        {recommendation}
-                      </p>
-                    </div>
-                  )
-                )
-              }
+                  <p className="text-slate-300 text-lg leading-relaxed">
+                    Learn <span className="font-semibold text-cyan-300">{skill}</span> to
+                    improve your ATS match score.
+                  </p>
+                </div>
+              ))}
             </div>
-
           ) : (
+            <div className="flex items-start gap-4 p-5 bg-green-500/5 border border-green-500/20 rounded-2xl">
+              <Award
+                className="text-green-400 mt-1 flex-shrink-0"
+                size={24}
+              />
 
-            <p className="text-slate-500">
-              No recommendations available
-            </p>
-          )
-        }
-      </div>
+              <p className="text-green-300 text-lg">
+                Great! Your resume covers all the required skills.
+              </p>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
