@@ -250,7 +250,7 @@ function AnalyzeResult({ result }) {
             <BookOpen className="text-cyan-400" size={30} />
 
             <h3 className="text-2xl font-bold text-white">
-              AI Recommendations
+              Recommendations
             </h3>
           </div>
 
